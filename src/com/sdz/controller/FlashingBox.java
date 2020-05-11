@@ -19,7 +19,11 @@ public class FlashingBox extends Thread {
     private final StateController stateController;
     private final I_strategy strategy;
 
-    public FlashingBox(ArrayList<DisplayManager> phaseOne, ArrayList<DisplayManager> phaseTwo, StateController stateController, I_strategy strategy){
+    public FlashingBox(
+            ArrayList<DisplayManager> phaseOne,
+            ArrayList<DisplayManager> phaseTwo,
+            StateController stateController,
+            I_strategy strategy){
 
         this.stateController =stateController;
         this.phaseOne=phaseOne;
@@ -39,11 +43,9 @@ public class FlashingBox extends Thread {
 
         while (true){
 
-
                 setLightState(new OffState());
                 notifyView(phaseOne);
                 notifyView(phaseTwo);
-
 
             if (!isFlashing()){
                 try { pauseThread(); }

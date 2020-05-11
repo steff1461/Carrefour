@@ -26,14 +26,22 @@ public class StateChanger extends Thread {
     private I_strategy currentStratgy;
     private final CarController carController;
 
-    public StateChanger(StateController stateController, I_strategy carStrategy, I_strategy pedestrianStrategy, CarController carController) {
+    public StateChanger(
+            StateController stateController,
+            I_strategy carStrategy,
+            I_strategy pedestrianStrategy,
+            CarController carController) {
 
         this.stateController =stateController;
 
         setPedestrianStrategy(pedestrianStrategy);
         setCarStrategy(carStrategy);
         this.carController =carController;
-        flashingBox= new FlashingBox(displayPhaseOne, displayPhaseThree, this.stateController,getCarStrategy());
+
+        flashingBox= new FlashingBox(
+                displayPhaseOne,
+                displayPhaseThree,
+                this.stateController,getCarStrategy());
 
     }
 

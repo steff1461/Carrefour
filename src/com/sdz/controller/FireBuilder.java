@@ -10,7 +10,9 @@ public class FireBuilder {
 
 public FireBuilder( ){ }
 
-public JPanel buildFire(Fire feux, EnumFirePosition firePosition){
+public JPanel buildFire(
+        Fire feux,
+        EnumFirePosition firePosition){
 
     PanFire panFire=new PanFire();
     int fireSize=0;

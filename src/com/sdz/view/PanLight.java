@@ -12,7 +12,9 @@ public class PanLight extends JPanel  {
     private Color lightColor;
     private  I_stateLight stateLight;
 
-    public PanLight(Color lightColor, I_stateLight stateLight){
+    public PanLight(
+            Color lightColor,
+            I_stateLight stateLight){
 
         this.setLightColor(lightColor);
         this.setStateLight(stateLight);

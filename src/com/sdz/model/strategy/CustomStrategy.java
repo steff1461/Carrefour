@@ -115,7 +115,9 @@ public class CustomStrategy implements I_strategy{
     }
 
     @Override
-    public void changeStateLight(Light light, I_stateLight newState) {
+    public void changeStateLight(
+            Light light,
+            I_stateLight newState) {
 
         if(light.getState().getClass()!= OutState.class){
 

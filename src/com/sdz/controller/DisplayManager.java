@@ -11,7 +11,9 @@ class DisplayManager {
     private JPanel panFire;
     private EnumFirePosition firePosition;
 
-    DisplayManager(JPanel panFire,EnumFirePosition firePosition){
+    DisplayManager(
+            JPanel panFire,
+            EnumFirePosition firePosition){
 
     setPanFire(panFire);
     setFirePosition(firePosition);

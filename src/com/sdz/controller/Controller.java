@@ -7,17 +7,11 @@ import com.sdz.model.light.CustomLight;
 import com.sdz.model.light.EnumColor;
 import com.sdz.model.light.Light;
 import com.sdz.model.stateFire.EnumState;
-import com.sdz.model.stateLight.OffState;
-import com.sdz.model.stateLight.OnState;
 import com.sdz.model.strategy.BicolorStrategy;
 import com.sdz.model.strategy.CustomStrategy;
 import com.sdz.model.strategy.TricolorStrategy;
 import com.sdz.view.UserInterface;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Controller {
 
@@ -29,13 +23,15 @@ public class Controller {
 
     public Controller(UserInterface ui) {
 
-        this.ui = ui;
         carController = new CarController(ui.getPanCarrefour());
         stateChanger= new StateChanger(
                 stateController,
                 new CustomStrategy(),
                 new BicolorStrategy(),
                 carController);
+
+        this.ui = ui;
+
     }
 
     private final ArrayList<Light> lightList= new ArrayList<>();
@@ -87,9 +83,6 @@ public class Controller {
         lightList4.add(cl14);
         lightList4.add(cl15);
         lightList4.add(cl16);
-
-
-
 
 
         stateChanger.addPhaseOne(

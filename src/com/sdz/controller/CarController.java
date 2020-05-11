@@ -82,7 +82,7 @@ public class CarController implements Runnable{
     }
 
     public void restartCarPhaseOne(){
-
+        System.out.println("restart one");
         for (Car car:listCarPhaseOne) {
 
             if(car.isRunning()){
@@ -105,6 +105,7 @@ public class CarController implements Runnable{
         }
     }
     public void pauseCarPhaseThree(){
+
 
         for (Car car: listCarPhaseThree) {
 
@@ -130,7 +131,7 @@ public class CarController implements Runnable{
     }
 
     public void pauseCarPhaseOne(){
-
+        System.out.println("pause one");
         for (Car car:listCarPhaseOne) {
 
             switch (car.getCarPosition()){
