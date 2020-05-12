@@ -18,14 +18,17 @@ public class FlashingBox extends Thread {
 
     private final StateController stateController;
     private final I_strategy strategy;
+    private final CarController carController;
 
     public FlashingBox(
             ArrayList<DisplayManager> phaseOne,
             ArrayList<DisplayManager> phaseTwo,
             StateController stateController,
-            I_strategy strategy){
+            I_strategy strategy,
+            CarController carController){
 
         this.stateController =stateController;
+        this.carController=carController;
         this.phaseOne=phaseOne;
         this.phaseTwo=phaseTwo;
         this.strategy=strategy;
@@ -46,18 +49,21 @@ public class FlashingBox extends Thread {
                 setLightState(new OffState());
                 notifyView(phaseOne);
                 notifyView(phaseTwo);
+                carController.pauseCarPhaseOne();
+                carController.pauseCarPhaseThree();
+                carController.setRunning(false);
 
             if (!isFlashing()){
+
                 try { pauseThread(); }
                 catch (InterruptedException e) {e.printStackTrace();
-
                 }
             }
 
             try {sleep(500);}
 
             catch (InterruptedException e) {e.printStackTrace();}
-            stateController.checkIfOut(strategy.getLightToOut());
+            stateController.checkIfOut(strategy.getLightsToOut());
 
             setLightState(new OnState());
 
@@ -68,7 +74,7 @@ public class FlashingBox extends Thread {
 
             catch (InterruptedException e) {e.printStackTrace();}
 
-            stateController.checkIfOut(strategy.getLightToOut());
+            stateController.checkIfOut(strategy.getLightsToOut());
         }
 
     }

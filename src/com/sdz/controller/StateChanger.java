@@ -41,8 +41,9 @@ public class StateChanger extends Thread {
         flashingBox= new FlashingBox(
                 displayPhaseOne,
                 displayPhaseThree,
-                this.stateController,getCarStrategy());
-
+                this.stateController,
+                getCarStrategy()
+                ,carController);
     }
 
     public synchronized void run() {
@@ -63,6 +64,13 @@ public class StateChanger extends Thread {
                     if(!carStrategy.isCarRunning()){
 
                         carController.pauseCarPhaseOne();
+                        carController.setRunning(false);
+                    }
+
+                    else {
+
+                        carController.restartCarPhaseOne();
+                        carController.restartThread();
                     }
 
                     if (isChangePhase()) {
@@ -108,9 +116,15 @@ public class StateChanger extends Thread {
 
                     if(!carStrategy.isCarRunning()){
 
-                        carController.pauseCarPhaseThree();
-                    }
+                    carController.pauseCarPhaseThree();
+                    carController.setRunning(false);
+                }
 
+                    else {
+
+                        carController.restartCarPhaseThree();
+                        carController.restartThread();
+                }
                     if (isChangePhase()) {
 
                         setCurrentPhase(EnumPhase.PhaseFour);
@@ -153,7 +167,7 @@ public class StateChanger extends Thread {
         long timeToWait=strategy.getTimeToWait();
         for(int i =  0; i<(timeToWait/1000)*2;i++ ){
 
-           if( stateController.checkIfOut(strategy.getLightToOut())){
+           if( stateController.checkIfOut(strategy.getLightsToOut())){
 
                setOffFire(phaseOne, carStrategy);
                setOffFire(phaseThree, carStrategy);

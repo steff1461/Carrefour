@@ -13,12 +13,13 @@ public class Car extends JPanel implements Runnable{
     private boolean pause = false;
     private final Dimension carDimHorizontal= new Dimension(70,50);
     private final Dimension carDimVertical= new Dimension(50,70);
+    private final Thread t;
 
     public Car(EnumCarPosition carPosition){
 
         setCarPosition(carPosition);
         initComponent();
-        Thread t= new Thread(this);
+       t= new Thread(this);
         t.start();
     }
 
@@ -31,8 +32,7 @@ public class Car extends JPanel implements Runnable{
 
                 case Left:
 
-                 //   posX+=50;
-                    setPosX(getPosX()+50);
+                    setPosX(getPosX()+30);
 
                     if(getPosX()>800){
 
@@ -43,8 +43,7 @@ public class Car extends JPanel implements Runnable{
 
                 case Right:
 
-                  //  posX-=50;
-                    setPosX(getPosX()-50);
+                    setPosX(getPosX()-30);
 
                     if(getPosX()<-50){
 
@@ -54,8 +53,7 @@ public class Car extends JPanel implements Runnable{
 
                 case Up:
 
-                   // posY+=50;
-                    setPosY(getPosY()+50);
+                    setPosY(getPosY()+30);
 
                     if(getPosY()>850){
 
@@ -65,8 +63,7 @@ public class Car extends JPanel implements Runnable{
 
                 case Down:
 
-                    //posY-=50;
-                    setPosY(getPosY()-50);
+                    setPosY(getPosY()-30);
 
                     if(getPosY()<-50){
 
@@ -133,7 +130,7 @@ public class Car extends JPanel implements Runnable{
 
     public synchronized void restartThread(){
 
-        notify();
+        if(t.getState()== Thread.State.WAITING)  notify();
     }
 
     public boolean isPause() {

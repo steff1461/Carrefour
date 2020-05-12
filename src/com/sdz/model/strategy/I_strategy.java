@@ -1,7 +1,10 @@
 package com.sdz.model.strategy;
 import com.sdz.model.fire.Fire;
+import com.sdz.model.light.EnumColor;
 import com.sdz.model.light.Light;
 import com.sdz.model.stateLight.I_stateLight;
+
+import java.util.List;
 
 
 public interface I_strategy {
@@ -11,8 +14,8 @@ public interface I_strategy {
     void setOffFire(Fire feux) ;
     void setTimeToWait(int timeToWait);
     void startFire(Fire feux);
-    Class getLightToOut();
-    Class getLightToFlash();
+    List<EnumColor> getLightsToOut();
+    EnumColor getLightToFlash();
     void changeStateLight(Light light, I_stateLight newState);
     void actualizeFire(Fire feux);
     boolean isCarRunning();

@@ -33,7 +33,6 @@ class DisplayManager {
         getPanFire().setLayout(new BorderLayout());
         getPanFire().add(fireView,BorderLayout.CENTER);
         getPanFire().updateUI();
-
     }
 
     private Fire getFeux() {

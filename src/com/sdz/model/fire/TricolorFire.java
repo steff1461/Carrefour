@@ -1,9 +1,6 @@
 package com.sdz.model.fire;
 
-import com.sdz.model.light.GreenLight;
-import com.sdz.model.light.Light;
-import com.sdz.model.light.OrangeLight;
-import com.sdz.model.light.RedLight;
+import com.sdz.model.light.*;
 
 public class TricolorFire extends Fire {
 
@@ -14,17 +11,17 @@ public class TricolorFire extends Fire {
 
     public Light getRedLight(){
 
-        return getLightByColor(RedLight.class);
+        return getLightByColor(EnumColor.Rouge);
     }
 
     public Light getOrangeLight(){
 
-        return getLightByColor(OrangeLight.class);
+        return getLightByColor(EnumColor.Orange);
     }
 
     public Light getGreenLight(){
 
-        return getLightByColor(GreenLight.class);
+        return getLightByColor(EnumColor.Vert);
     }
 
 }

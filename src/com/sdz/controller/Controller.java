@@ -12,6 +12,7 @@ import com.sdz.model.strategy.CustomStrategy;
 import com.sdz.model.strategy.TricolorStrategy;
 import com.sdz.view.UserInterface;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
 
@@ -23,10 +24,15 @@ public class Controller {
 
     public Controller(UserInterface ui) {
 
+        List<EnumColor> lightList= new ArrayList<>();
+        lightList.add(EnumColor.Gris);
+        lightList.add(EnumColor.Rouge);
+
         carController = new CarController(ui.getPanCarrefour());
         stateChanger= new StateChanger(
                 stateController,
-                new CustomStrategy(),
+                new TricolorStrategy(),
+                //new CustomStrategy(lightList,EnumColor.Bleu),
                 new BicolorStrategy(),
                 carController);
 

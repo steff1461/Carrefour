@@ -12,12 +12,13 @@ public class CarController implements Runnable{
     private final ArrayList<Car> listCarPhaseThree=new ArrayList<>();
     private EnumPhase currentPhase=EnumPhase.PhaseOne;
     private boolean isRunning = true;
+    private final Thread t;
 
     public CarController(PanCarrefour panCarrefour) {
 
         this.panCarrefour = panCarrefour;
 
-        Thread t = new Thread(this);
+        t= new Thread(this);
         t.start();
     }
 
@@ -31,8 +32,15 @@ public class CarController implements Runnable{
 
            addCar();
 
-            try { Thread.sleep(3000); }
+
+            try { Thread.sleep(4500); }
             catch (InterruptedException e) { e.printStackTrace(); }
+
+            if (!isRunning()){
+                pauseThread();
+            }
+
+
         }
     }
 
@@ -66,23 +74,26 @@ public class CarController implements Runnable{
         }
     }
 
-    public void pauseThread(){
+    public synchronized void pauseThread(){
 
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (t.getState()== Thread.State.RUNNABLE) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public synchronized void restartThread(){
 
         setRunning(true);
-        notify();
+        if (t.getState()== Thread.State.WAITING) {
+            notify();
+        }
     }
 
     public void restartCarPhaseOne(){
-        System.out.println("restart one");
         for (Car car:listCarPhaseOne) {
 
             if(car.isRunning()){
@@ -131,9 +142,9 @@ public class CarController implements Runnable{
     }
 
     public void pauseCarPhaseOne(){
-        System.out.println("pause one");
         for (Car car:listCarPhaseOne) {
 
+            System.out.println(listCarPhaseOne.size());
             switch (car.getCarPosition()){
 
                 case Up:

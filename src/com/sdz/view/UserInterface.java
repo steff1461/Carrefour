@@ -87,7 +87,6 @@ public class UserInterface extends JFrame {
         getBtnRepare().addActionListener(new btnRepareListener());
     }
 
-
     class isManualListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

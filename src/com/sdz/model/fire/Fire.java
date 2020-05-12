@@ -32,13 +32,13 @@ public abstract class Fire{
        this.lightList=lightList;
    }
 
-   public Light getLightByColor(Class lightToFind){
+   public Light getLightByColor(EnumColor lightToFind){
 
        Light tempLight=null;
 
        for (Light light:lightList) {
 
-           if (light.getClass()==lightToFind){
+           if (light.getColor()==lightToFind){
 
                tempLight=light;
            }

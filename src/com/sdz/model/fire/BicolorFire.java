@@ -1,5 +1,6 @@
 package com.sdz.model.fire;
 
+import com.sdz.model.light.EnumColor;
 import com.sdz.model.light.GreenLight;
 import com.sdz.model.light.Light;
 import com.sdz.model.light.RedLight;
@@ -13,11 +14,11 @@ public class BicolorFire extends Fire {
 
     public Light getGreenLight(){
 
-        return getLightByColor(GreenLight.class);
+        return getLightByColor(EnumColor.Vert);
     }
 
     public Light getRedLight(){
 
-        return getLightByColor(RedLight.class);
+        return getLightByColor(EnumColor.Rouge);
     }
 }
