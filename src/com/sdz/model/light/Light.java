@@ -3,17 +3,19 @@ package com.sdz.model.light;
 import com.sdz.model.stateLight.I_stateLight;
 import com.sdz.model.stateLight.OffState;
 
+import java.awt.*;
+
 public abstract  class Light {
 
-    private final EnumColor color;
+    private final Color color;
     private I_stateLight state=new OffState();
 
-    public Light(EnumColor color){
+    public Light(Color color){
 
         this.color=color;
     }
 
-    public EnumColor getColor() {
+    public Color getColor() {
 
         return color;
     }

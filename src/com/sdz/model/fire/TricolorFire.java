@@ -11,17 +11,17 @@ public class TricolorFire extends Fire {
 
     public Light getRedLight(){
 
-        return getLightByColor(EnumColor.Rouge);
+        return getLightByColor(EnumColor.Rouge.getLightColor());
     }
 
     public Light getOrangeLight(){
 
-        return getLightByColor(EnumColor.Orange);
+        return getLightByColor(EnumColor.Orange.getLightColor());
     }
 
     public Light getGreenLight(){
 
-        return getLightByColor(EnumColor.Vert);
+        return getLightByColor(EnumColor.Vert.getLightColor());
     }
 
 }

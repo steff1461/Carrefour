@@ -4,6 +4,6 @@ public class GreenLight extends Light{
 
     public GreenLight() {
 
-        super(EnumColor.Vert);
+        super(EnumColor.Vert.getLightColor());
     }
 }

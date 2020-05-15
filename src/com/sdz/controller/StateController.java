@@ -3,6 +3,8 @@ import com.sdz.model.fire.Fire;
 import com.sdz.model.light.EnumColor;
 import com.sdz.model.light.Light;
 import com.sdz.model.stateLight.OutState;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class StateController {
         this.reparator=reparator;
     }
 
-    public  boolean checkIfOut(List<EnumColor> lightsToOut)  {
+    public  boolean checkIfOut(List<Color> lightsToOut)  {
 
         for (Fire feux: listFire) {
 
@@ -28,7 +30,7 @@ public class StateController {
                     reparator.addLight(light);
                     setAnotherOut(true);
 
-                    for(EnumColor color: lightsToOut){
+                    for(Color color: lightsToOut){
                         if (light.getColor()==color){
 
                             return true;

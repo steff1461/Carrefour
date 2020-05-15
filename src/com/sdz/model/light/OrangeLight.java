@@ -4,6 +4,6 @@ public class OrangeLight extends Light{
 
     public OrangeLight() {
 
-        super(EnumColor.Orange);
+        super(EnumColor.Orange.getLightColor());
     }
 }

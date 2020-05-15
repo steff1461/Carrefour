@@ -25,8 +25,13 @@ public class PanLight extends JPanel  {
 
         g.setColor(getLightColor());
 
+
         if (getStateLight().getClass() == OffState.class) {
-            g.drawOval(0, 0, getWidth(), getHeight());
+
+            int alpha= 127;
+            Color color= new Color(getLightColor().getRed(),getLightColor().getGreen(),getLightColor().getBlue(),alpha);
+            g.setColor(color);
+            g.fillOval(0, 0, getWidth(), getHeight());
         }
 
         else if(this.getStateLight().getClass()== OnState.class) {
@@ -34,7 +39,7 @@ public class PanLight extends JPanel  {
             g.fillOval(0,0,getWidth(), getHeight());
         }
 
-        else if(this.getStateLight().getClass()== OutState.class){
+        else {
 
             this.setLightColor(Color.black);
             g.setColor(getLightColor());

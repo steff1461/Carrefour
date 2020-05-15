@@ -1,48 +1,87 @@
 package com.sdz.view;
 
 import com.sdz.controller.Controller;
-
+import com.sdz.model.light.Light;
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class UserInterface extends JFrame {
 
     private final JPanel panPrincipal = (JPanel) this.getContentPane();
-    private final JPanel containerFire1 =new JPanel();
-    private final JPanel containerFire2 =new JPanel();
-    private final JPanel containerFire3 =new JPanel();
-    private final JPanel containerFire4 =new JPanel();
-    private final JPanel containerFire5 =new JPanel();
-    private final JPanel containerFire6 =new JPanel();
-    private final JPanel containerFire7 =new JPanel();
-    private final JPanel containerFire8 =new JPanel();
-    private final JPanel containerFire9 =new JPanel();
-    private final JPanel containerFire10 =new JPanel();
-    private final JPanel containerFire11 =new JPanel();
-    private final JPanel containerFire12 =new JPanel();
+    private final JPanel containerFire1 =new PanConteneur();
+    private final JPanel containerFire2 =new PanConteneur();
+    private final JPanel containerFire3 =new PanConteneur();
+    private final JPanel containerFire4 = new PanConteneur();
+    private final JPanel containerFire5 =new PanConteneur();
+    private final JPanel containerFire6 =new PanConteneur();
+    private final JPanel containerFire7 =new PanConteneur();
+    private final JPanel containerFire8 =new PanConteneur();
+    private final JPanel containerFire9 =new PanConteneur();
+    private final JPanel containerFire10 =new PanConteneur();
+    private final JPanel containerFire11 =new PanConteneur();
+    private final JPanel containerFire12 =new PanConteneur();
     private final JButton btnmanual= new JButton();
     private final JCheckBox isManual= new JCheckBox("Manuel");
     private final JButton btnRepare = new JButton("Rep");
     private final JPanel panControl= new JPanel();
+    private final JMenuBar menuBar= new JMenuBar();
+    private final JMenu optMenu= new JMenu("Nouveau");
+    private final JButton reset= new JButton("Reset");
+    private final JButton leave= new JButton("Quitter");
+    private final JMenuItem itemStand= new JMenuItem("Mode regular");
+    private final JMenuItem itemCustom= new JMenuItem("Mode custom");
     private final PanCarrefour panCarrefour=new PanCarrefour();
+    private final UserInterface ui = this;
+
+
     private Controller controller;
 
     public UserInterface() {
 
-        this.setVisible(true);
-        this.initComponent();
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        initComponent();
     }
 
     private void initComponent() {
 
-        this.setBounds(0, 0, 1050, 1000);
+        this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setBounds(150, 0, 1050, 825);
+        this.setResizable(false);
+        this.setJMenuBar(menuBar);
+
         panPrincipal.setLayout(new FlowLayout());
 
         panPrincipal.add(panControl);
         panPrincipal.add(panCarrefour);
+
+        menuBar.add(optMenu);
+        menuBar.add(reset);
+        menuBar.add(leave);
+
+        optMenu.add(itemStand);
+        optMenu.add(itemCustom);
+
+        reset.setEnabled(false);
+        reset.setContentAreaFilled(false);
+        leave.setContentAreaFilled(false);
+        reset.setBorderPainted(false);
+        leave.setBorderPainted(false);
+
+
+        reset.setActionCommand("RESET");
+        leave.setActionCommand("LEAVE");
+        itemStand.setActionCommand("REGULAR");
+        itemCustom.setActionCommand("CUSTOM");
+
+        leave.addActionListener(new MenuItemListener());
+        reset.addActionListener(new MenuItemListener());
+        itemStand.addActionListener(new MenuItemListener());
+        itemCustom.addActionListener(new MenuItemListener());
+
 
         panCarrefour.add(containerFire1);
         panCarrefour.add(containerFire2);
@@ -76,73 +115,21 @@ public class UserInterface extends JFrame {
 
         panControl.setPreferredSize(new Dimension(200,800));
         panControl.setLayout(new FlowLayout());
-        panControl.setBorder(BorderFactory.createLineBorder(Color.RED));
+
 
         panControl.add(btnmanual);
         panControl.add(isManual);
         panControl.add(btnRepare);
 
-        getBtnmanual().addActionListener(new btnManualListener());
-        getIsManual().addActionListener(new isManualListener());
-        getBtnRepare().addActionListener(new btnRepareListener());
+        btnmanual.setEnabled(false);
+        isManual.setEnabled(false);
+        btnRepare.setEnabled(false);
+
+        btnmanual.addActionListener(new BtnManualListener());
+        isManual.addActionListener(new IsManualListener());
+        btnRepare.addActionListener(new BtnRepareListener());
     }
-
-    class isManualListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            if (((JCheckBox) e.getSource()).isSelected()) {
-
-                controller.getStateChanger().setManualChange(true);
-            } else {
-
-                controller.getStateChanger().setManualChange(false);
-
-                if ( controller.getStateChanger().getState() == Thread.State.WAITING) {
-
-                    controller.getStateChanger().restartThread();
-                }
-            }
-        }
-    }
-
-    class btnManualListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            if ( controller.getStateChanger().getState() == Thread.State.WAITING) {
-
-                if ( controller.getStateChanger().istManualChange()) {
-
-                    controller.getStateChanger().restartThread();
-                }
-
-            }
-        }
-    }
-
-    class btnRepareListener implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            controller.getReparator().repareLight();
-            controller.getStateController().setAnotherOut(false);
-
-            if( controller.getStateChanger().getState()== Thread.State.WAITING) {
-
-                controller.getStateChanger().restartThread();
-                controller.getStateChanger().startAllFire();
-            }
-
-            else if( controller.getStateChanger().getState()== Thread.State.TIMED_WAITING){
-
-                controller.getStateChanger().actualizeAllFire();
-                controller.getStateChanger().notifyAllView();
-            }
-
-        }
-    }
-
+    
     public JPanel getContainerFire1() { return containerFire1; }
 
     public JPanel getContainerFire2() { return containerFire2; }
@@ -156,12 +143,6 @@ public class UserInterface extends JFrame {
     public JPanel getContainerFire5() { return containerFire5; }
 
     public JPanel getContainerFire6() { return containerFire6; }
-
-    public JButton getBtnmanual() { return btnmanual;}
-
-    public JCheckBox getIsManual() { return isManual;}
-
-    public JButton getBtnRepare() { return btnRepare;}
 
     public PanCarrefour getPanCarrefour() { return panCarrefour; }
 
@@ -179,6 +160,235 @@ public class UserInterface extends JFrame {
 
     public void setController(Controller controller){this.controller =controller; }
 
+    public Controller getController(){ return controller; }
 
 
+    public void launchCustom(ArrayList<Light> lightsList,ArrayList<Color> listLightTOOut){
+
+        if (lightsList.size()>3){
+
+            int cpt= lightsList.size()-3;
+
+            getContainerFire2().setLocation(230,184-(22*cpt));
+            getContainerFire3().setLocation(184-(22*cpt),550);
+            this.repaint();
+            this.revalidate();
+
+        }
+
+        int result= JOptionPane.showConfirmDialog(
+                null,
+                new PanelOpt(),
+                "Créez votre feu",
+                JOptionPane.YES_NO_OPTION);
+
+        controller.startCustomFire(lightsList,listLightTOOut);
+        btnmanual.setEnabled(true);
+        btnRepare.setEnabled(true);
+        isManual.setEnabled(true);
+        optMenu.setEnabled(false);
+        reset.setEnabled(true);
+
+        if (result==0) {
+            getController().getCarController().start();
+        }
+    }
+    class MenuListener implements javax.swing.event.MenuListener{
+        @Override
+        public void menuSelected(MenuEvent e) {
+
+            System.out.println("test");
+             JMenu menu= (JMenu) e.getSource();
+            int result;
+
+          switch (menu.getActionCommand()){
+//
+//              case "RESET":
+//
+//                   result= JOptionPane.showConfirmDialog(null,"Voulez-vous recommencer?","Reset",JOptionPane.YES_NO_OPTION);
+//
+//                   if (result==0) {
+//
+//                      getController().getStateChanger().setToInterrupt(true);
+//                      getController().getCarController().interruptCar();
+//                      getController().getCarController().setToInterrupt(true);
+//                      getContainerFire1().removeAll();
+//                      getContainerFire2().removeAll();
+//                      getContainerFire1().revalidate();
+//                      getContainerFire2().revalidate();
+//                      getContainerFire3().removeAll();
+//                      getContainerFire4().removeAll();
+//                      getContainerFire5().removeAll();
+//                      getContainerFire6().removeAll();
+//                      getContainerFire7().removeAll();
+//                      getContainerFire8().removeAll();
+//                      getContainerFire9().removeAll();
+//                      getContainerFire10().removeAll();
+//                      getContainerFire11().removeAll();
+//                      getContainerFire12().removeAll();
+//                      optMenu.setEnabled(true);
+//                      reset.setEnabled(false);
+//                      getPanCarrefour().updateUI();
+//                  }
+//                  break;
+//
+//              case "LEAVE":
+//                  result= JOptionPane.showConfirmDialog(
+//                          null,
+//                          "Voulez-vous quitter?",
+//                          "Quitter",
+//                          JOptionPane.YES_NO_OPTION);
+//
+//                  if (result==0) {
+//                      System.exit(1);
+//                  }
+//                  break;
+          }
+
+        }
+
+        @Override
+        public void menuDeselected(MenuEvent e) {
+
+        }
+
+        @Override
+        public void menuCanceled(MenuEvent e) {
+
+        }
+    }
+
+    class MenuItemListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            switch (e.getActionCommand()){
+
+                case "REGULAR":
+
+                    int result= JOptionPane.showConfirmDialog(
+                            null,
+                            new PanelOpt(),
+                            "Car option",
+                            JOptionPane.YES_NO_OPTION);
+
+                    getController().startRegularFire();
+                    btnmanual.setEnabled(true);
+                    btnRepare.setEnabled(true);
+                    isManual.setEnabled(true);
+                    reset.setEnabled(true);
+                    optMenu.setEnabled(false);
+                    if (result==0) {
+                        getController().getCarController().start();
+                    }
+
+                    break;
+
+                case "CUSTOM":
+
+                    CreatorFrame crator= new CreatorFrame(ui);
+                    break;
+
+
+                case "RESET":
+
+                    result= JOptionPane.showConfirmDialog(null,"Voulez-vous recommencer?","Reset",JOptionPane.YES_NO_OPTION);
+
+                    if (result==0) {
+
+                        getController().getStateChanger().setToInterrupt(true);
+                        getController().getCarController().interruptCar();
+                        getController().getCarController().setToInterrupt(true);
+                        getContainerFire1().removeAll();
+                        getContainerFire2().removeAll();
+                        getContainerFire1().revalidate();
+                        getContainerFire2().revalidate();
+                        getContainerFire3().removeAll();
+                        getContainerFire4().removeAll();
+                        getContainerFire5().removeAll();
+                        getContainerFire6().removeAll();
+                        getContainerFire7().removeAll();
+                        getContainerFire8().removeAll();
+                        getContainerFire9().removeAll();
+                        getContainerFire10().removeAll();
+                        getContainerFire11().removeAll();
+                        getContainerFire12().removeAll();
+                        optMenu.setEnabled(true);
+                        reset.setEnabled(false);
+                        getPanCarrefour().updateUI();
+                    }
+                    break;
+
+                case "LEAVE":
+                    result= JOptionPane.showConfirmDialog(
+                            null,
+                            "Voulez-vous quitter?",
+                            "Quitter",
+                            JOptionPane.YES_NO_OPTION);
+
+                    if (result==0) {
+                        System.exit(1);
+                    }
+                    break;
+            }
+        }
+    }
+
+    class IsManualListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (((JCheckBox) e.getSource()).isSelected()) {
+
+                getController().getStateChanger().setManualChange(true);
+            } else {
+
+                getController().getStateChanger().setManualChange(false);
+
+                if ( getController().getStateChanger().getState() == Thread.State.WAITING) {
+
+                    getController().getStateChanger().restartThread();
+                }
+            }
+        }
+    }
+
+    class BtnManualListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if ( getController().getStateChanger().getState() == Thread.State.WAITING) {
+
+                if ( getController().getStateChanger().istManualChange()) {
+
+                    getController().getStateChanger().restartThread();
+                }
+
+            }
+        }
+    }
+
+    class BtnRepareListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            getController().getReparator().repareLight();
+            getController().getStateController().setAnotherOut(false);
+            getController().getCarController().restartCarPhaseOne();
+            getController().getCarController().restartCarPhaseThree();
+
+            if( getController().getStateChanger().getState()== Thread.State.WAITING) {
+
+                getController().getStateChanger().restartThread();
+                getController().getStateChanger().startAllFire();
+            }
+
+            else if( getController().getStateChanger().getState()== Thread.State.TIMED_WAITING){
+
+                getController().getStateChanger().actualizeAllFire();
+                getController().getStateChanger().notifyAllView();
+            }
+        }
+    }
 }

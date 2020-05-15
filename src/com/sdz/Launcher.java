@@ -10,8 +10,5 @@ public class Launcher {
         UserInterface ui = new UserInterface();
         Controller ctrl = new Controller(ui);
         ui.setController(ctrl);
-
-          ctrl.startRegularFire();
-        //ctrl.startCustomFire();
     }
 }

@@ -11,9 +11,7 @@ class DisplayManager {
     private JPanel panFire;
     private EnumFirePosition firePosition;
 
-    DisplayManager(
-            JPanel panFire,
-            EnumFirePosition firePosition){
+    DisplayManager(JPanel panFire, EnumFirePosition firePosition){
 
     setPanFire(panFire);
     setFirePosition(firePosition);
@@ -24,7 +22,7 @@ class DisplayManager {
      setFeux(feux);
     }
 
-    synchronized void notifyView() {
+    public void notifyView() {
 
         JPanel fireView= builder.buildFire(getFeux(),getFirePosition());
 

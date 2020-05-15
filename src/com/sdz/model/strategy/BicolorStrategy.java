@@ -11,6 +11,7 @@ import com.sdz.model.stateLight.OffState;
 import com.sdz.model.stateLight.OnState;
 import com.sdz.model.stateLight.OutState;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,21 +92,21 @@ public class BicolorStrategy implements I_strategy {
     public void startFire(Fire feux) {
 
         setOffFire(feux);
-        feux.getLightByColor(EnumColor.Rouge).setState(new OnState());
+        feux.getLightByColor(EnumColor.Rouge.getLightColor()).setState(new OnState());
         feux.setCurrentState(EnumState.GreenState);
     }
 
     @Override
     public List getLightsToOut() {
 
-        List<EnumColor> lightList= new ArrayList<>();
-        lightList.add(EnumColor.Rouge);
+        List<Color> lightList= new ArrayList<>();
+        lightList.add(EnumColor.Rouge.getLightColor());
 
         return lightList;
     }
 
     @Override
-    public EnumColor getLightToFlash() {
+    public Color getLightToFlash() {
         return null;
     }
 

@@ -14,6 +14,7 @@ public class Car extends JPanel implements Runnable{
     private final Dimension carDimHorizontal= new Dimension(70,50);
     private final Dimension carDimVertical= new Dimension(50,70);
     private final Thread t;
+    private boolean toInterrupt=false;
 
     public Car(EnumCarPosition carPosition){
 
@@ -26,7 +27,7 @@ public class Car extends JPanel implements Runnable{
     @Override
     public void run() {
 
-        while(isRunning()){
+        while(!isToInterrupt()){
 
             switch (getCarPosition()){
 
@@ -36,7 +37,6 @@ public class Car extends JPanel implements Runnable{
 
                     if(getPosX()>800){
 
-                        setRunning(false);
                     }
 
                     break;
@@ -47,7 +47,6 @@ public class Car extends JPanel implements Runnable{
 
                     if(getPosX()<-50){
 
-                        setRunning(false);
                     }
                     break;
 
@@ -57,7 +56,6 @@ public class Car extends JPanel implements Runnable{
 
                     if(getPosY()>850){
 
-                        setRunning(false);
                     }
                     break;
 
@@ -67,12 +65,13 @@ public class Car extends JPanel implements Runnable{
 
                     if(getPosY()<-50){
 
-                        setRunning(false);
                     }
                     break;
             }
 
+            setRunning(false);
             setLocation(getPosX(),getPosY());
+
 
             try { Thread.sleep(500); }
             catch (InterruptedException e) { e.printStackTrace(); }
@@ -87,14 +86,14 @@ public class Car extends JPanel implements Runnable{
 
             case Left:
 
-                setPosX(-50);
+                setPosX(20);
                 setPosY(450);
                setSize(carDimHorizontal);
                 break;
 
             case Right:
 
-                setPosX(850);
+                setPosX(780);
                 setPosY(300);
                 setSize(carDimHorizontal);
                 break;
@@ -102,14 +101,14 @@ public class Car extends JPanel implements Runnable{
             case Up:
 
                 setPosX(300);
-                setPosY(-50);
+                setPosY(20);
                 setSize(carDimVertical);
                 break;
 
             case Down:
 
                 setPosX(450);
-                setPosY(850);
+                setPosY(780);
                 setSize(carDimVertical);
                 break;
         }
@@ -164,4 +163,8 @@ public class Car extends JPanel implements Runnable{
     public void setPosY(int posY) {
         this.posY = posY;
     }
+
+    public void setToInterrupt(boolean toInterrupt){this.toInterrupt=toInterrupt;}
+
+    public  boolean isToInterrupt(){ return  toInterrupt;}
 }

@@ -10,6 +10,7 @@ import com.sdz.model.stateLight.OffState;
 import com.sdz.model.stateLight.OnState;
 import com.sdz.model.stateLight.OutState;
 
+import java.awt.*;
 import java.util.List;
 
 public class CustomStrategy implements I_strategy{
@@ -18,10 +19,10 @@ public class CustomStrategy implements I_strategy{
     private boolean isOnlyActive=false;
     private boolean isCarRunning=false;
     private int cpt=0;
-    private List<EnumColor> listToOut;
-    private EnumColor lightToFlash;
+    private List<Color> listToOut;
+    private Color lightToFlash;
 
-    public CustomStrategy(List<EnumColor> listToOut,EnumColor lightToFlash){
+    public CustomStrategy(List<Color> listToOut,Color lightToFlash){
 
         setListToOut(listToOut);
         setLightToFlash(lightToFlash);
@@ -43,7 +44,6 @@ public class CustomStrategy implements I_strategy{
                 if (isOnlyActive) {
 
                     isOnlyActive = false;
-
                 }
 
                 else {
@@ -70,8 +70,6 @@ public class CustomStrategy implements I_strategy{
 
                             setCarRunning(false);
                             setTimeToWait(4000);
-
-                            System.out.println(tempLight.getColor());
                             break;
                     }
 
@@ -126,7 +124,7 @@ public class CustomStrategy implements I_strategy{
     }
 
     @Override
-    public EnumColor getLightToFlash() {
+    public Color getLightToFlash() {
 
         return lightToFlash;
     }
@@ -146,8 +144,8 @@ public class CustomStrategy implements I_strategy{
     public void actualizeFire(Fire feux) {
 
         isOnlyActive=true;
+        setOffFire(feux);
         startFire(feux);
-       // changeLight(feux);
     }
 
 
@@ -159,15 +157,15 @@ public class CustomStrategy implements I_strategy{
     public void setCarRunning(boolean isCarRunning) { this.isCarRunning=isCarRunning; }
 
 
-    public List<EnumColor> getListToOut() {
+    public List<Color> getListToOut() {
         return listToOut;
     }
 
-    public void setListToOut(List<EnumColor> listToOut) {
+    public void setListToOut(List<Color> listToOut) {
         this.listToOut = listToOut;
     }
 
-    public void setLightToFlash(EnumColor lightToFlash) {
+    public void setLightToFlash(Color lightToFlash) {
         this.lightToFlash = lightToFlash;
     }
 }

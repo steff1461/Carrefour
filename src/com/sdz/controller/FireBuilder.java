@@ -10,7 +10,7 @@ public class FireBuilder {
 
 public FireBuilder( ){ }
 
-public JPanel buildFire(
+public  JPanel buildFire(
         Fire feux,
         EnumFirePosition firePosition){
 
@@ -19,7 +19,7 @@ public JPanel buildFire(
 
     for (Light light:feux.getLightlist()) {
 
-        PanLight panLight= new PanLight(light.getColor().getLightColor(),light.getState());
+        PanLight panLight= new PanLight(light.getColor(),light.getState());
 
         panLight.addMouseListener(new OutLightListener(light));
         panFire.add(panLight);

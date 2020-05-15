@@ -14,11 +14,11 @@ public class BicolorFire extends Fire {
 
     public Light getGreenLight(){
 
-        return getLightByColor(EnumColor.Vert);
+        return getLightByColor(EnumColor.Vert.getLightColor());
     }
 
     public Light getRedLight(){
 
-        return getLightByColor(EnumColor.Rouge);
+        return getLightByColor(EnumColor.Rouge.getLightColor());
     }
 }

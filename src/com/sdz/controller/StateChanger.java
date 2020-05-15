@@ -25,6 +25,7 @@ public class StateChanger extends Thread {
     private EnumPhase currentPhase= EnumPhase.PhaseOne;
     private I_strategy currentStratgy;
     private final CarController carController;
+    private  boolean toInterrupt= false;
 
     public StateChanger(
             StateController stateController,
@@ -51,7 +52,7 @@ public class StateChanger extends Thread {
         startAllFire();
         notifyAllView();
 
-        while (true) {
+        while (!toInterrupt) {
 
             switch (getCurrentPhase()) {
 
@@ -347,6 +348,10 @@ public class StateChanger extends Thread {
     private boolean isChangePhase() { return isChangePhase; }
 
     public void setIsChangePhase(boolean changePhase) { this.isChangePhase = changePhase; }
+
+    public boolean isToInterrupt() { return toInterrupt; }
+
+    public void setToInterrupt(boolean toInterrupt){ this.toInterrupt=toInterrupt; }
 }
 
 

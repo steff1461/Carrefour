@@ -5,21 +5,18 @@ import com.sdz.view.EnumCarPosition;
 import com.sdz.view.PanCarrefour;
 import java.util.ArrayList;
 
-public class CarController implements Runnable{
+public class CarController extends Thread {
 
     private final PanCarrefour panCarrefour;
     private final ArrayList<Car> listCarPhaseOne=new ArrayList<>();
     private final ArrayList<Car> listCarPhaseThree=new ArrayList<>();
     private EnumPhase currentPhase=EnumPhase.PhaseOne;
     private boolean isRunning = true;
-    private final Thread t;
+    private boolean toInterrupt=false;
 
     public CarController(PanCarrefour panCarrefour) {
 
         this.panCarrefour = panCarrefour;
-
-        t= new Thread(this);
-        t.start();
     }
 
     @Override
@@ -28,19 +25,16 @@ public class CarController implements Runnable{
         try { Thread.sleep(1000); }
         catch (InterruptedException e) { e.printStackTrace(); }
 
-        while(true){
+        while(!toInterrupt){
 
            addCar();
 
-
-            try { Thread.sleep(4500); }
+            try { Thread.sleep(3000); }
             catch (InterruptedException e) { e.printStackTrace(); }
 
             if (!isRunning()){
                 pauseThread();
             }
-
-
         }
     }
 
@@ -76,7 +70,7 @@ public class CarController implements Runnable{
 
     public synchronized void pauseThread(){
 
-        if (t.getState()== Thread.State.RUNNABLE) {
+        if (this.getState()== Thread.State.RUNNABLE) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -88,7 +82,7 @@ public class CarController implements Runnable{
     public synchronized void restartThread(){
 
         setRunning(true);
-        if (t.getState()== Thread.State.WAITING) {
+        if (this.getState()== Thread.State.WAITING) {
             notify();
         }
     }
@@ -96,7 +90,7 @@ public class CarController implements Runnable{
     public void restartCarPhaseOne(){
         for (Car car:listCarPhaseOne) {
 
-            if(car.isRunning()){
+            if(!car.isRunning()){
 
                 car.setPause(false);
                 car.restartThread();
@@ -108,7 +102,7 @@ public class CarController implements Runnable{
 
         for (Car car:listCarPhaseThree) {
 
-            if(car.isRunning()){
+            if(!car.isRunning()){
 
                 car.setPause(false);
                 car.restartThread();
@@ -175,7 +169,30 @@ public class CarController implements Runnable{
         return currentPhase;
     }
 
+    public void interruptCar(){
+
+        for(Car car: listCarPhaseOne){
+
+            car.setVisible(false);
+            car.setToInterrupt(true);
+        }
+
+        for(Car car: listCarPhaseThree){
+
+            car.setVisible(false);
+            car.setToInterrupt(true);
+        }
+    }
+
     public boolean isRunning() { return isRunning;}
 
     public void setRunning(boolean running) { isRunning = running;}
+
+    public boolean isToInterrupt() {
+        return toInterrupt;
+    }
+
+    public void setToInterrupt(boolean toInterrupt) {
+        this.toInterrupt = toInterrupt;
+    }
 }

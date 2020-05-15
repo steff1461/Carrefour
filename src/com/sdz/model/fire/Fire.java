@@ -4,6 +4,8 @@ import com.sdz.model.stateFire.EnumState;
 import com.sdz.model.stateLight.OnState;
 import com.sdz.model.light.Light;
 import com.sdz.model.light.EnumColor;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class Fire{
@@ -32,7 +34,7 @@ public abstract class Fire{
        this.lightList=lightList;
    }
 
-   public Light getLightByColor(EnumColor lightToFind){
+   public Light getLightByColor(Color lightToFind){
 
        Light tempLight=null;
 

@@ -4,6 +4,6 @@ public class RedLight extends Light{
 
     public RedLight() {
 
-        super(EnumColor.Rouge);
+        super(EnumColor.Rouge.getLightColor());
     }
 }
